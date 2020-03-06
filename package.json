@@ -1,43 +1,108 @@
 {
-  "name": "useHooks",
+  "name": "create-cart",
   "version": "0.0.1",
+  "author": "Qwaz <qwaszxman@gmail.com>",
+  "description": "cart",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "cart",
+    "product",
+    "shop"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qwaszxman/shop.git",
+  },
   "private": false,
-  "author": "",
-  "homepage": "",
-  "dependencies": {
-    "hardtack": "4.1.0",
-    "react": "16.12.0",
-    "react-dom": "16.12.0",
-    "react-ga": "2.7.0",
-    "react-redux": "6.0.0",
-    "react-shopping-cart": "^1.8.32",
-    "redux": "4.0.1",
-    "redux-api-middleware": "3.0.1",
-    "redux-thunk": "2.3.0"
-  },
-  "devDependencies": {
-    "husky": "1.3.1",
-    "lint-staged": "8.1.5",
-    "prettier": "1.15.3",
-    "react-scripts": "2.1.8",
-    "redux-logger": "3.0.6",
-    "webpack": "^4.42.0"
-  },
+
+  "main": "./index.js",
+  "module": "./index.js",
   "scripts": {
-    "start": "react-scripts start",
+    "build": "NODE_ENV=release webpack --config webpack.config.dist & NODE_ENV=production webpack --config webpack.config.prod",
+    "doc": "gulp doc",
+    "test": "jest .",
+    "flow": "flow",
+    "lint": "eslint .",
+    "build_example": "NODE_ENV=production webpack --config webpack.config.example_prod",
+    "dev": "NODE_ENV=development webpack-dev-server --config webpack.config.dev.js",
+    "prepublish": "(yarn build & yarn doc) && echo Done",
+    "start": "concurrently \"npm run server\" \"react-scripts start\",
+    "server": "nodemon server/app",
+    "wdio": "wdio",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test",
+    "test:coverage": "npm run test -- --coverage",
+    "format": "prettier --write \"**/*.+(js|json|css)\",
     "eject": "react-scripts eject"
+ 
+  
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+  
+
+  "dependencies": {
+
+    "animate.css": "3.5.2",
+   "axios": "^0.18.0",
+   "babel-polyfill": "^6.26.0",
+   "babel-runtime": "6.26.0",
+   "bootstrap": "4.0.0",
+   "classnames": "2.2.5",
+   "concurrently": "^4.0.1",
+   "cors": "^2.8.5",
+   "express": "^4.16.4",
+   "font-awesome": "4.7.0",
+   "intl-messageformat": "2.1.0",
+   "moxios": "^0.4.0",
+   "prop-types": "15.5.10",
+   "react-dom": "^16.6.3",
+   "react-fontawesome": "1.6.1",
+   "react-overlays": "0.8.0",
+   "react-redux": "^6.0.0",
+   "react-router-dom": "^4.3.1",
+   "react-scripts": "^2.1.3",
+   "react-scroll": "1.5.4",
+   "react-transition-group": "2.2.0",
+   "react": "^16.13.0",
+   "redux-thunk": "^2.3.0",
+   "redux": "^4.0.1",
+   "reselect": "3.0.1"  
   },
-  "lint-staged": {
-    "*.{js,css}": [
-      "prettier --write",
-      "git add"
-    ]
-  }
+  "eslintConfig": {
+   "extends": "react-app"
+  },
+  "jest": {
+   "collectCoverageFrom": [
+   "  "src/**/*.{js,jsx}",
+   "  "!/node_modules/",
+   "  "!src/index.js",
+   "  "!src/Root.js"
+   "]
+  },
+  "browserslist": [
+   ">0.2%",
+   "not dead",
+   "not ie <= 11",
+   "not op_mini all"
+  ],
+  "devDependencies": {
+   "chai": "^4.2.0",
+   "enzyme": "^3.7.0",
+   "enzyme-adapter-react-16": "^1.7.0",
+   "enzyme-to-json": "^3.3.4",
+   "fetch-mock": "^7.2.5",
+   "firebase-tools": "^6.2.2",
+   "node-sass": "^4.10.0",
+   "nodemon": "^1.18.6",
+   "prop-types": "^15.6.2",
+   "react-test-renderer": "^16.6.3",
+   "redux-mock-store": "^1.5.3",
+   "sinon": "^7.1.1",
+   "wdio-mocha-framework": "^0.6.4",
+   "wdio-selenium-standalone-service": "0.0.12",
+   "wdio-spec-reporter": "^0.1.5",
+   "webdriverio": "^4.14.1"
+  },
+  "keywords": [],
+  "description": "Shopping cart"
 }
