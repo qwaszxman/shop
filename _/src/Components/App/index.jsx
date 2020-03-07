@@ -1,13 +1,14 @@
 import React from 'react';
 
 import Shelf from '../Shelf';
+import { Header } from "./header";
 import Filter from '../Shelf/Filter';
-import GithubCorner from '../github/Corner';
 import FloatCart from '../FloatCart';
 
-const App = () => (
+const App = (props) => (
   <React.Fragment>
-    <GithubCorner />
+
+    <Header />
     <main>
       <Filter />
       <Shelf />

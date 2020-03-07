@@ -52,27 +52,23 @@ class CartProduct extends Component {
     }
 
     return (
-      <div className={classes.join(' ')}>
+      product.sku && <div className={classes.join(' ')}>
         <div
           className="shelf-item__del"
           onMouseOver={() => this.handleMouseOver()}
           onMouseOut={() => this.handleMouseOut()}
           onClick={() => removeProduct(product)}
         />
-        <Thumb
-          classes="shelf-item__thumb"
-          src={require(`../../../Static/products/${product.sku}_2.jpg`)}
-          alt={product.title}
-        />
+        <Thumb classes="shelf-item__thumb" src={require(`../../../Static/products/${ product.sku }_2.jpg`)} alt={product.title} />
         <div className="shelf-item__details">
           <p className="title">{product.title}</p>
           <p className="desc">
-            {`${product.availableSizes[0]} | ${product.style}`} <br />
+            {`${ product.availableSizes[0] } | ${ product.style }`} <br />
             Quantity: {product.quantity}
           </p>
         </div>
         <div className="shelf-item__price">
-          <p>{`${product.currencyFormat}  ${formatPrice(product.price)}`}</p>
+          <p>{`${ product.currencyFormat }  ${ formatPrice(product.price) }`}</p>
           <div>
             <button onClick={this.handleOnDecrease} disabled={product.quantity === 1 ? true : false} className="change-product-button">-</button>
             <button onClick={this.handleOnIncrease} className="change-product-button">+</button>
