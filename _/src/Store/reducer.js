@@ -1,11 +1,11 @@
 import { FETCH_PRODUCTS } from '../Services/shelf/actionTypes';
-import { LOAD_CART, ADD_PRODUCT, REMOVE_PRODUCT, CHANGE_PRODUCT_QUANTITY } from '../Services/shelf/actionTypes';
+import { LOAD_CART, ADD_PRODUCT, REMOVE_PRODUCT, CHANGE_PRODUCT_QUANTITY } from '../Services/cart/actionTypes';
 import { UPDATE_CART } from '../Services/total/actionTypes';
 import { UPDATE_FILTER } from '../Services/filters/actionTypes';
 import { UPDATE_SORT } from '../Services/sort/actionTypes';
 import { useReducer } from 'react';
 
-const intialState = {
+const initialState = {
     products: [],
     data: {
         productQuantity: 0,
@@ -18,7 +18,7 @@ const intialState = {
     type: '',
 }
 
-const reducer = (state = intialState, action) => {
+const reducer = (state = initialState, action) => {
     switch (action.type) {
         case FETCH_PRODUCTS:
             return {
@@ -68,9 +68,9 @@ const reducer = (state = intialState, action) => {
 
 const [state, dispatch] = useReducer(reducer, initialState);
 
-export const reducerHook = {
-    state: state,
-    dispatch: dispatch
+export const value = {
+    state,
+    dispatch
 }
 
 export default reducer;
