@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
+
+import { Store } from '../../Store/store';
 
 import { fetchProducts } from '../../Services/shelf/actions';
 
@@ -11,7 +13,12 @@ import './style.scss';
 
 const Shelf = (props) => {
 
+  const { state, dispatch } = useContext(Store)
   const [isLoading, setIsLoading] = useState(false);
+
+  const { products } = state.shelf;
+  const { filters: items } = state.filters;
+  const { sort: type } = state.sort;
 
   useEffect(
     () => {
@@ -32,16 +39,13 @@ const Shelf = (props) => {
     }
   }
 
-  const handleFetchProducts = (filters = props.filters, sort = props.sort) => {
+  const handleFetchProducts = (filters, sort) => {
     setIsLoading(true);
 
-    // TODO: wait for #useDispatch
-    // props.fetchProducts(filters, sort, () => {
-    //   setState({ isLoading: false });
-    // });
+    dispatch(fetchProducts(filters, sort, () => {
+      setIsLoading(false);
+    }));
   };
-
-  const { products } = props;
 
   return (
     <React.Fragment>
@@ -60,13 +64,5 @@ Shelf.propTypes = {
   filters: PropTypes.array,
   sort: PropTypes.string
 };
-
-
-
-const mapStateToProps = state => ({
-  products: state.shelf.products,
-  filters: state.filters.items,
-  sort: state.sort.type
-});
 
 export default Shelf
