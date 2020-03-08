@@ -1,21 +1,20 @@
-import React, { } from "react";
+import React, { useContext } from "react";
 
-export const store = React.createContext();
-store.displayName = "context_STORE"
+export const Store = React.createContext();
+Store.displayName = "context_Store"
 
-export const storeProvider = store.Provider;
-export const storeConsumer = store.Consumer;
+export const StoreConsumer = Store.Consumer;
 
 const initialState = {}
 
 function reducer() { }
 
-export function StoreProvider(props) {
-    const { childer, ...rest } = props;
+export const StoreProvider = (props) => {
+    const { children, ...rest } = props;
 
-    return <Store.Provider value='data from store'>
-        {props.children}
+    return <Store.Provider value='data from Store'>
+        {children}
     </Store.Provider>
 }
 
-export const useStore = () => useContext(store)
+export const useStore = () => useContext(Store)
