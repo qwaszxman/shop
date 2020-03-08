@@ -1,7 +1,8 @@
 import { FETCH_PRODUCTS } from '../Services/shelf/actionTypes';
 import { LOAD_CART, ADD_PRODUCT, REMOVE_PRODUCT, CHANGE_PRODUCT_QUANTITY } from '../Services/shelf/actionTypes';
 import { UPDATE_CART } from '../Services/total/actionTypes';
-
+import { UPDATE_FILTER } from '../Services/filters/actionTypes';
+import { UPDATE_SORT } from '../Services/sort/actionTypes';
 
 const intialState = {
     products: [],
@@ -11,7 +12,9 @@ const intialState = {
         totalPrice: 0,
         currencyId: 'USD',
         currencyFormat: '$'
-    }
+    },
+    items: [],
+    type: '',
 }
 
 const reducer = (state = intialState, action) => {
@@ -46,6 +49,16 @@ const reducer = (state = intialState, action) => {
             return {
                 ...state,
                 data: action.payload
+            };
+        case UPDATE_FILTER:
+            return {
+                ...state,
+                items: action.payload
+            };
+        case UPDATE_SORT:
+            return {
+                ...state,
+                type: action.payload
             };
         default:
             return state;
