@@ -10,6 +10,12 @@ const initialState = {}
 
 function reducer() { }
 
-export function StoreProvider(props) { }
+export function StoreProvider(props) {
+    const { childer, ...rest } = props;
+
+    return <Store.Provider value='data from store'>
+        {props.children}
+    </Store.Provider>
+}
 
 export const useStore = () => useContext(store)
