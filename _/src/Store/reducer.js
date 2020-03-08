@@ -3,22 +3,8 @@ import { LOAD_CART, ADD_PRODUCT, REMOVE_PRODUCT, CHANGE_PRODUCT_QUANTITY } from 
 import { UPDATE_CART } from '../Services/total/actionTypes';
 import { UPDATE_FILTER } from '../Services/filters/actionTypes';
 import { UPDATE_SORT } from '../Services/sort/actionTypes';
-import { useReducer } from 'react';
 
-const initialState = {
-    products: [],
-    data: {
-        productQuantity: 0,
-        installments: 0,
-        totalPrice: 0,
-        currencyId: 'USD',
-        currencyFormat: '$'
-    },
-    items: [],
-    type: '',
-}
-
-const reducer = (state = initialState, action) => {
+const reducer = (state, action) => {
     switch (action.type) {
         case FETCH_PRODUCTS:
             return {

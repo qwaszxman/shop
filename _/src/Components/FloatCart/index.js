@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
@@ -8,184 +8,180 @@ import CartProduct from './CartProduct';
 import { formatPrice } from '../../Services/util';
 
 import './style.scss';
+import { Store } from '../../Store/store';
 
-class FloatCart extends Component {
-    static propTypes = {
-        loadCart: PropTypes.func.isRequired,
-        updateCart: PropTypes.func.isRequired,
-        cartProducts: PropTypes.array.isRequired,
-        newProduct: PropTypes.object,
-        removeProduct: PropTypes.func,
-        productToRemove: PropTypes.object,
-        changeProductQuantity: PropTypes.func,
-        productToChange: PropTypes.object,
-    };
+//_ ctrl + H { [[this., state.], NOTHING], }
+//_ append all functions with "const"
+//_ //_1 replace all calls to setState with useState
+//_ //_2 update refs to state 
+//_ //_3 consolidate all refs to top of file 
+//_ 
+//_ 
 
-    state = {
-        isOpen: false
-    };
+const FloatCart = (props) => {
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.newProduct !== this.props.newProduct)
-        {
-            this.addProduct(nextProps.newProduct);
+    //_ import useContext
+    const { state, dispatch } = useContext(Store);
+
+    //_ add //_1 useState 
+    const [isOpen, setIsOpen] = useState(false);
+
+    //_3  
+    const { cartTotal, cartProducts, updateCart } = props;
+    const { totalPrice, productQuantity, currencyFormat, currencyId } = cartTotal;
+
+    // TODO: refactor when Store implemented
+    const componentWillReceiveProps = (nextProps) => {
+        if (nextProps.newProduct !== props.newProduct) {
+            addProduct(nextProps.newProduct);
         }
 
-        if (nextProps.productToRemove !== this.props.productToRemove)
-        {
-            this.removeProduct(nextProps.productToRemove);
+        if (nextProps.productToRemove !== props.productToRemove) {
+            onRemoveProduct(nextProps.productToRemove);
         }
 
-        if (nextProps.productToChange !== this.props.productToChange)
-        {
-            this.changeProductQuantity(nextProps.productToChange);
+        if (nextProps.productToChange !== props.productToChange) {
+            onChangeProductQuantity(nextProps.productToChange);
         }
     }
 
-    openFloatCart = () => {
-        this.setState({ isOpen: true });
+    const openFloatCart = () => {
+        setIsOpen(true);
     };
 
-    closeFloatCart = () => {
-        this.setState({ isOpen: false });
+    const closeFloatCart = () => {
+        setIsOpen(false);
     };
 
-    addProduct = product => {
-        const { cartProducts, updateCart } = this.props;
+    const addProduct = product => {
+        //_3 done
         let productAlreadyInCart = false;
 
         cartProducts.forEach(cp => {
-            if (cp.id === product.id)
-            {
+            if (cp.id === product.id) {
                 cp.quantity += product.quantity;
                 productAlreadyInCart = true;
             }
         });
 
-        if (!productAlreadyInCart)
-        {
+        if (!productAlreadyInCart) {
             cartProducts.push(product);
         }
 
         updateCart(cartProducts);
-        this.openFloatCart();
+        openFloatCart();
     };
 
-    removeProduct = product => {
-        const { cartProducts, updateCart } = this.props;
+    //_Ex  
+    const onRemoveProduct = product => {
+        //_3 done
 
         const index = cartProducts.findIndex(p => p.id === product.id);
-        if (index >= 0)
-        {
+        if (index >= 0) {
             cartProducts.splice(index, 1);
             updateCart(cartProducts);
         }
     };
 
-    proceedToCheckout = () => {
-        const { totalPrice, productQuantity, currencyFormat, currencyId } = this.props.cartTotal;
+    const proceedToCheckout = () => {
+        //_3 done
 
-        if (!productQuantity)
-        {
+        if (!productQuantity) {
             alert('Add some product in the cart!');
-        } else
-        {
-            alert(
-                `Checkout - Subtotal: ${ currencyFormat } ${ formatPrice(totalPrice, currencyId) }`
-            );
+        } else {
+            alert(`Checkout - Subtotal: ${ currencyFormat } ${ formatPrice(totalPrice, currencyId) }`);
         }
     };
 
-    changeProductQuantity = changedProduct => {
-        const { cartProducts, updateCart } = this.props;
+    const onChangeProductQuantity = changedProduct => {
+        //_3 done
 
         const product = cartProducts.find(p => p.id === changedProduct.id);
         product.quantity = changedProduct.quantity;
-        if (product.quantity <= 0)
-        {
-            this.removeProduct(product);
+        if (product.quantity <= 0) {
+            onRemoveProduct(product);
         }
         updateCart(cartProducts);
     }
 
-    render() {
-        const { cartTotal, cartProducts, removeProduct, changeProductQuantity } = this.props;
+    // remove render
+    //_3 done
 
-        const products = cartProducts.map(p => {
-            return (
-                <CartProduct product={p} removeProduct={removeProduct} changeProductQuantity={changeProductQuantity} key={p.id} />
-            );
-        });
-
-        let classes = ['float-right'];
-
-        if (!!this.state.isOpen)
-        {
-            classes.push('float-right--open');
-        }
-
+    const products = cartProducts.map(p => {
         return (
-            <div className={classes.join(' ')}>
-                {/* If cart open, show close (x) button */}
-                {this.state.isOpen && (<div onClick={() => this.closeFloatCart()} className="float-right__close-btn" > X </div>)}
+            <CartProduct product={p} removeProduct={dispatch(removeProduct)} changeProductQuantity={dispatch(changeProductQuantity)} key={p.id} />
+        );
+    });
 
-                {/* If cart is closed, show bag with quantity of product and open cart action */}
-                {!this.state.isOpen && (<span className="bag bag--float-right-closed" onClick={() => this.openFloatCart()}>
-                    <span className="bag__quantity">{cartTotal.productQuantity}</span>
-                </span>
-                )}
+    let classes = ['float-right'];
 
-                <div className="float-right__content">
-                    <div className="float-right__header">
-                        <span className="bag">
-                            <span className="bag__quantity">{cartTotal.productQuantity}</span>
-                        </span>
-                        <span className="header-title">Cart</span>
-                    </div>
+    //_2 
+    if (!!isOpen) {
+        classes.push('float-right--open');
+    }
 
-                    <div className="float-right__shelf-container">
-                        {products}
-                        {!products.length && (
-                            <p className="shelf-empty">
-                                Add some products in the cart <br />  :)
+    return (
+        <div className={classes.join(' ')}>
+            {/* If cart open, show close (x) button */}
+            {isOpen && (<div onClick={() => closeFloatCart()} className="float-right__close-btn" > X </div>)}
+
+            {/* If cart is closed, show bag with quantity of product and open cart action */}
+            {!isOpen && (<span className="bag bag--float-right-closed" onClick={() => openFloatCart()}>
+                <span className="bag__quantity">{cartTotal.productQuantity}</span>
+            </span>
+            )}
+
+            <div className="float-right__content">
+                <div className="float-right__header">
+                    <span className="bag">
+                        <span className="bag__quantity">{cartTotal.productQuantity}</span>
+                    </span>
+                    <span className="header-title">Cart</span>
+                </div>
+
+                <div className="float-right__shelf-container">
+                    {products}
+                    {!products.length && (
+                        <p className="shelf-empty">
+                            Add some products in the cart <br />  :)
                             </p>
-                        )}
-                    </div>
+                    )}
+                </div>
 
-                    <div className="float-right__footer">
-                        <div className="sub">SUBTOTAL</div>
-                        <div className="sub-price">
-                            <p className="sub-price__val">
-                                {`${ cartTotal.currencyFormat } ${ formatPrice(cartTotal.totalPrice, cartTotal.currencyId) }`}
-                            </p>
-                            <small className="sub-price__installment">
-                                {!!cartTotal.installments && (
-                                    <span>
-                                        {`OR UP TO ${ cartTotal.installments } x ${ cartTotal.currencyFormat }
+                <div className="float-right__footer">
+                    <div className="sub">SUBTOTAL</div>
+                    <div className="sub-price">
+                        <p className="sub-price__val">
+                            {`${ cartTotal.currencyFormat } ${ formatPrice(cartTotal.totalPrice, cartTotal.currencyId) }`}
+                        </p>
+                        <small className="sub-price__installment">
+                            {!!cartTotal.installments && (
+                                <span>
+                                    {`OR UP TO ${ cartTotal.installments } x ${ cartTotal.currencyFormat }
                                         ${ formatPrice(cartTotal.totalPrice / cartTotal.installments, cartTotal.currencyId) }`}
-                                    </span>
-                                )}
-                            </small>
-                        </div>
-                        <div onClick={() => this.proceedToCheckout()} className="buy-btn">
-                            Checkout
-                        </div>
+                                </span>
+                            )}
+                        </small>
                     </div>
+                    <div onClick={() => proceedToCheckout()} className="buy-btn">
+                        Checkout
+                        </div>
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
+    // remove render
 }
 
-const mapStateToProps = state => ({
-    cartProducts: state.cart.products,
-    newProduct: state.cart.productToAdd,
-    productToRemove: state.cart.productToRemove,
-    productToChange: state.cart.productToChange,
-    cartTotal: state.total.data
-});
+FloatCart.propTypes = {
+    loadCart: PropTypes.func.isRequired,
+    updateCart: PropTypes.func.isRequired,
+    cartProducts: PropTypes.array.isRequired,
+    newProduct: PropTypes.object,
+    removeProduct: PropTypes.func,
+    productToRemove: PropTypes.object,
+    changeProductQuantity: PropTypes.func,
+    productToChange: PropTypes.object,
+};
 
-export default connect(
-    mapStateToProps,
-    { loadCart, updateCart, removeProduct, changeProductQuantity }
-)(FloatCart);
+export default FloatCart;

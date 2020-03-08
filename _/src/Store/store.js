@@ -5,7 +5,19 @@ Store.displayName = "context_Store"
 
 export const StoreConsumer = Store.Consumer;
 
-const initialState = {}
+const initialState = {
+    products: [],
+    data: {
+        productQuantity: 0,
+        installments: 0,
+        totalPrice: 0,
+        currencyId: 'USD',
+        currencyFormat: '$'
+    },
+    items: [],
+    type: '',
+    filters: [],
+}
 
 function reducer() { }
 
