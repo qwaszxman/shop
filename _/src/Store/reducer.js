@@ -3,6 +3,7 @@ import { LOAD_CART, ADD_PRODUCT, REMOVE_PRODUCT, CHANGE_PRODUCT_QUANTITY } from 
 import { UPDATE_CART } from '../Services/total/actionTypes';
 import { UPDATE_FILTER } from '../Services/filters/actionTypes';
 import { UPDATE_SORT } from '../Services/sort/actionTypes';
+import { useReducer } from 'react';
 
 const intialState = {
     products: [],
@@ -63,6 +64,13 @@ const reducer = (state = intialState, action) => {
         default:
             return state;
     }
+}
+
+const [state, dispatch] = useReducer(reducer, initialState);
+
+export const reducerHook = {
+    state: state,
+    dispatch: dispatch
 }
 
 export default reducer;
