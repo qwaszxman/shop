@@ -18,6 +18,7 @@ export default initialState => {
 
   store.subscribe(() => {
     const state = store.getState();
+    console.log(JSON.stringify(state));
     const persist = {
       cart: state.cart,
       total: state.total
