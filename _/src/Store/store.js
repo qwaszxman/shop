@@ -7,7 +7,7 @@ export const StoreConsumer = Store.Consumer;
 
 const initialState = {
     products: [],
-    data: {
+    cartTotal: {
         productQuantity: 0,
         installments: 0,
         totalPrice: 0,
@@ -17,6 +17,7 @@ const initialState = {
     items: [],
     type: '',
     filters: [],
+    sort: "ASC"
 }
 
 function reducer() { }

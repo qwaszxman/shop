@@ -27,7 +27,8 @@ const FloatCart = (props) => {
     const [isOpen, setIsOpen] = useState(false);
 
     //_3  
-    const { cartTotal, cartProducts, updateCart } = props;
+    const { cartTotal } = state;
+    const { cartProducts, updateCart } = props;
     const { totalPrice, productQuantity, currencyFormat, currencyId } = cartTotal;
 
     // TODO: refactor when Store implemented

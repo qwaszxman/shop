@@ -16,9 +16,7 @@ const Shelf = (props) => {
   const { state, dispatch } = useContext(Store)
   const [isLoading, setIsLoading] = useState(false);
 
-  const { products } = state.shelf;
-  const { filters: items } = state.filters;
-  const { sort: type } = state.sort;
+  const { products, sort, filters } = state;
 
   useEffect(
     () => {
