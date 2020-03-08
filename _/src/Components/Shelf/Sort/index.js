@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
-import { connect } from 'react-redux';
+import { Store } from '../../../Store/store';
 import { updateSort } from '../../../Services/sort/actions';
 import Selectbox from '../../Selectbox';
 
@@ -11,12 +11,18 @@ const sortBy = [
   { value: 'highestprice', label: 'Highest to lowest' }
 ];
 
-const Sort = ({ updateSort, sort }) => (
-  <div className="sort">
-    Order by
-    <Selectbox options={sortBy} handleOnChange={value => updateSort(value)} />
-  </div>
-);
+const Sort = ({ sort }) => {
+
+  const { dispatch } = useContext(Store)
+
+  return (
+    <div className="sort">
+      Order by
+      <Selectbox options={sortBy} handleOnChange={value => dispatch(updateSort(value))} />
+    </div>
+  );
+
+}
 
 Sort.propTypes = {
   updateSort: PropTypes.func.isRequired,
@@ -27,7 +33,4 @@ const mapStateToProps = state => ({
   sort: state.sort.type
 });
 
-export default connect(
-  mapStateToProps,
-  { updateSort }
-)(Sort);
+export default Sort;

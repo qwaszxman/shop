@@ -1,4 +1,5 @@
 import React, { useContext, useReducer } from "react";
+import reducer from './reducer';
 
 export const Store = React.createContext();
 Store.displayName = "context_Store"
@@ -6,7 +7,13 @@ Store.displayName = "context_Store"
 export const StoreConsumer = Store.Consumer;
 
 const initialState = {
-    products: [],
+    shelf: { products: [], },
+    cart: {
+        products: [],
+        productToAdd: {},
+        productToChange: {},
+        productToRemove: {}
+    },
     cartTotal: {
         productQuantity: 0,
         installments: 0,
@@ -17,10 +24,10 @@ const initialState = {
     items: [],
     type: '',
     filters: [],
-    sort: "ASC"
+    sort: {}
 }
 
-function reducer() { }
+// function reducer() { }
 
 export const StoreProvider = (props) => {
     console.log("StoreProvide props ", props);
