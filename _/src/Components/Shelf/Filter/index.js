@@ -9,12 +9,6 @@ import './style.scss';
 
 const availableSizes = ['XS', 'S', 'M', 'ML', 'L', 'XL', 'XXL'];
 
-Filter.propTypes = {
-  updateFilters: PropTypes.func.isRequired,
-  filters: PropTypes.array
-};
-
-
 const Filter = (props) => {
 
   const [selectedCheckboxes, setSelectedCheckboxes] = useState(null);
@@ -58,5 +52,10 @@ const Filter = (props) => {
     </div>
   );
 }
+
+Filter.propTypes = {
+  updateFilters: PropTypes.func.isRequired,
+  filters: PropTypes.array
+};
 
 export default Filter
