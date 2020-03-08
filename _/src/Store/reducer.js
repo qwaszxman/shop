@@ -66,11 +66,4 @@ const reducer = (state = initialState, action) => {
     }
 }
 
-const [state, dispatch] = useReducer(reducer, initialState);
-
-export const value = {
-    state,
-    dispatch
-}
-
 export default reducer;
