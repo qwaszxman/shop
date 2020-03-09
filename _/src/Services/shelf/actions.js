@@ -20,7 +20,7 @@ const fetchDataAction = (filters, sortBy, callback) => {
 
 };
 
-export const fetchProducts = (filters, sortBy, callback) => async (dispatch) => {
+export const fetchProducts = async (dispatch, filters, sortBy, callback) => {
 
   // export const fetchProducts = async (filters, sortBy, callback) => {
   // export const fetchProducts = async (filters, sortBy, callback) => {

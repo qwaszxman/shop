@@ -5,11 +5,15 @@ import { UPDATE_FILTER } from '../Services/filters/actionTypes';
 import { UPDATE_SORT } from '../Services/sort/actionTypes';
 
 const reducer = (state, action) => {
+    console.log("reducer init state, action", state, action);
     switch (action.type) {
         case FETCH_PRODUCTS:
             return {
                 ...state,
-                products: action.payload
+                shelf: {
+                    ...state.shelf,
+                    products: action.payload
+                }
             };
 
         case LOAD_CART:
@@ -20,7 +24,10 @@ const reducer = (state, action) => {
         case ADD_PRODUCT:
             return {
                 ...state,
-                productToAdd: Object.assign({}, action.payload)
+                cart: {
+                    ...state.cart,
+                    productToAdd: Object.assign({}, action.payload)
+                }
             };
         case REMOVE_PRODUCT:
             return {

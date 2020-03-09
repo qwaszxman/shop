@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import Thumb from '../../../Thumb';
 import { formatPrice } from '../../../../Services/util';
 import { addProduct } from '../../../../Services/cart/actions';
+import { Store } from '../../../../Store/store';
 
-const Product = ({ product, addProduct }) => {
+const Product = ({ product }) => {
+
+  const { dispatch } = useContext(Store);
+
   product.quantity = 1;
 
   let formattedPrice = formatPrice(product.price, product.currencyId);
@@ -30,7 +33,7 @@ const Product = ({ product, addProduct }) => {
   return (
     <div
       className="shelf-item"
-      onClick={() => addProduct(product)}
+      onClick={() => dispatch(addProduct(product))}
       data-sku={product.sku}
     >
       {product.isFreeShipping && (
@@ -56,7 +59,4 @@ Product.propTypes = {
   addProduct: PropTypes.func.isRequired
 };
 
-export default connect(
-  null,
-  { addProduct }
-)(Product);
+export default Product;

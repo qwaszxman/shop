@@ -14,7 +14,7 @@ import './style.scss';
 const Shelf = (props) => {
 
   const { state, dispatch } = useContext(Store)
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const { shelf, sort, filters } = state;
   const { products } = shelf;
@@ -39,16 +39,16 @@ const Shelf = (props) => {
   }
 
   const handleFetchProducts = (filters, sort) => {
-    setIsLoading(true);
+    // setIsLoading(true);
 
-    dispatch(fetchProducts(filters, sort, () => {
-      setIsLoading(false);
-    }));
+    fetchProducts(dispatch, filters, sort, () => {
+      // setIsLoading(false);
+    });
   };
 
   return (
     <React.Fragment>
-      {isLoading && <Spinner />}
+      {!!products && <Spinner />}
       <div className="shelf-container">
         <ShelfHeader productsLength={products.length} />
         <ProductList products={products} />
